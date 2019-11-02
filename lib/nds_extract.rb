@@ -1,5 +1,6 @@
 # Provided, don't edit
 require 'directors_database'
+require 'pp'
 
 # A method we're giving you. This "flattens"  Arrays of Arrays so: [[1,2],
 # [3,4,5], [6]] => [1,2,3,4,5,6].
@@ -21,7 +22,7 @@ def flatten_a_o_a(aoa)
 end
 
 def movie_with_director_name(director_name, movie_data)
-  { 
+  {
     :title => movie_data[:title],
     :worldwide_gross => movie_data[:worldwide_gross],
     :release_year => movie_data[:release_year],
@@ -48,6 +49,23 @@ def movies_with_director_key(name, movies_collection)
   # Array of Hashes where each Hash represents a movie; however, they should all have a
   # :director_name key. This addition can be done by using the provided
   # movie_with_director_name method
+
+  result = []
+
+  counter = 0
+  #look at each movie in array of movie Hashes
+  while counter < movies_collection.length do
+    # if director name of current movie matches input #if there is a director name
+    if movies_collection[counter][:director_name]
+      # add to AoH to return
+      result.push(movie_with_director_name(name,movies_collection[counter]))
+    else
+      movies_collection[counter][:director_name] = name
+      result.push(movie_with_director_name(name,movies_collection[counter]))
+    end
+    counter += 1
+  end
+  result
 end
 
 
@@ -63,6 +81,26 @@ def gross_per_studio(collection)
   #
   # Hash whose keys are the studio names and whose values are the sum
   # total of all the worldwide_gross numbers for every movie in the input Hash
+
+  result = {}
+  counter = 0
+
+  while counter < collection.length
+    puts "checking if we have #{result[collection[counter][:studio]]}..."
+    if !result[collection[counter][:studio]]
+      puts "Nope!"
+      result[collection[counter][:studio]] = collection[counter][:worldwide_gross]
+      puts "Adding new value #{collection[counter][:worldwide_gross]}"
+    else
+      puts "Yup!"
+      result[collection[counter][:studio]] += collection[counter][:worldwide_gross]
+      puts "New total: #{collection[counter][:worldwide_gross]}"
+    end
+    counter += 1
+  end
+
+  result
+
 end
 
 def movies_with_directors_set(source)
@@ -76,6 +114,13 @@ def movies_with_directors_set(source)
   #
   # Array of Arrays containing all of a director's movies. Each movie will need
   # to have a :director_name key added to it.
+  result = []
+  counter = 0
+  while counter < source.length do
+    result.push(movies_with_director_key(source[counter][:name],source))
+    counter += 1
+  end
+  result
 end
 
 # ----------------    End of Your Code Region --------------------
