@@ -90,10 +90,11 @@ def gross_per_studio(collection)
     if !result[collection[counter][:studio]]
       puts "Nope!"
       result[collection[counter][:studio]] = collection[counter][:worldwide_gross]
-      puts "Adding value #{collection[counter][:worldwide_gross]}"
+      puts "Adding new value #{collection[counter][:worldwide_gross]}"
     else
       puts "Yup!"
       result[collection[counter][:studio]] += collection[counter][:worldwide_gross]
+      puts "New total: #{collection[counter][:worldwide_gross]}"
     end
     counter += 1
   end
