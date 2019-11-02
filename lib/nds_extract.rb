@@ -86,15 +86,19 @@ def gross_per_studio(collection)
   counter = 0
 
   while counter < collection.length
+    puts "checking if we have #{result[collection[counter][:studio]]}..."
     if !result[collection[counter][:studio]]
+      puts "Nope!"
       result[collection[counter][:studio]] = collection[counter][:worldwide_gross]
     else
+      puts "Yup!"
       result[collection[counter][:studio]] += collection[counter][:worldwide_gross]
     end
     counter += 1
   end
 
   result
+
 end
 
 def movies_with_directors_set(source)
